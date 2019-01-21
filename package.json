@@ -1,0 +1,29 @@
+{
+  "name": "rinklink",
+  "version": "0.0.1",
+  "description": "The js side of the hardware interface for icerink.",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/icerink/rinklink-js.git"
+  },
+  "keywords": [
+    "fpga",
+    "hardware",
+    "webmidi"
+  ],
+  "author": "Jaro Habiger <jarohabiger@googlemail.com>",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/icerink/rinklink-js/issues"
+  },
+  "homepage": "https://github.com/icerink/rinklink-js#readme",
+  "dependencies": {
+    "jzz": "^0.6.6"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
+}
