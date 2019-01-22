@@ -1,9 +1,14 @@
 const JZZ = require("jzz")
 
 module.exports = class RinkLink {
-    constructor() {
+    constructor(mock) {
         this.input = JZZ().openMidiIn(/ice(skate|link|rink).*/gi);
         this.output = JZZ().openMidiIn(/ice(skate|link|rink).*/gi);
+
+        if((this.input._err || this.output._err) && !mock) {
+            throw new Error("could not open midi device!");
+        }
+
         this.subscribers = [];
         this.message_buffer = [];
 
@@ -30,7 +35,8 @@ module.exports = class RinkLink {
     }
 
     _flush_buffer() {
-        this.subscribers.forEach(s => s(this.message_buffer));
+        if(this.message_buffer)
+            this.subscribers.forEach(s => s(this.message_buffer));
         this.message_buffer = [];
     }
 
@@ -79,6 +85,11 @@ module.exports = class RinkLink {
                 this.output.send(new Uint8Array([0x80 | b >> 7, b & 0b01111111, 0x00]))
             }
         })
-        this.output.send(new Uint8Array([0xA0, 0x00, 0x00])); // flush the line
+        this.output.send(new JZZ.MIDI([0xA0, 0x00, 0x00])); // flush the line
+    }
+
+    reboot() {
+        // flushing the buffer when nothing is inside causes a reboot
+        this._flush_buffer();
     }
 };

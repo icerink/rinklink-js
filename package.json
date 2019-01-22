@@ -25,5 +25,8 @@
   },
   "devDependencies": {
     "mocha": "^5.2.0"
+  },
+  "bin": {
+    "rinkflash": "./flasher.js"
   }
 }
