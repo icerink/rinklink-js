@@ -88,8 +88,9 @@ module.exports = class RinkLink {
         this.output.send(new JZZ.MIDI([0xA0, 0x00, 0x00])); // flush the line
     }
 
-    reboot() {
+    command(c) {
         // flushing the buffer when nothing is inside causes a reboot
         this._flush_buffer();
+        this.send(c);
     }
 };
