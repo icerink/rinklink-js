@@ -18,7 +18,7 @@ describe('RinkLink', function() {
                 if(!data.every((b, i) => b >= 0 && b <= i == 0 ? 255 : 127)) {
                     done(new Error("value out of bounds: " + JSON.stringify(Array.from(data))))
                 }
-                link._onMidiMessage({data});
+                link._onMidiMessage(data);
             };
             link.subscribe(data => {
                 const to_compare = Array.from(test_payload).map(b => typeof(b) === "string" ? b.charCodeAt(0) : b)
@@ -36,7 +36,7 @@ describe('RinkLink', function() {
             const link = new RinkLink(true);
     
             // loopback the output
-            link.output.send = data => setTimeout(() => link._onMidiMessage({data}), 10);
+            link.output.send = data => setTimeout(() => link._onMidiMessage(data), 10);
 
             test_payload = 42;
     

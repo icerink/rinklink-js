@@ -5,7 +5,7 @@
  */
 
 const fs = require('fs');
-const RinkLink = require('./index');
+const RinkLink = require('../index');
 
 if (process.argv.length !== 3) {
     console.error("filename missing!")

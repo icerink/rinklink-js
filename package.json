@@ -27,6 +27,7 @@
     "mocha": "^5.2.0"
   },
   "bin": {
-    "rinkflash": "./flasher.js"
+    "rinkflash": "./tools/flasher.js",
+    "rinkterm": "./tools/terminal.js"
   }
 }

@@ -5,14 +5,14 @@ module.exports = class RinkLink {
         this.input = JZZ().openMidiIn(/ice(skate|link|rink).*/gi);
         this.output = JZZ().openMidiIn(/ice(skate|link|rink).*/gi);
 
-        if((this.input._err || this.output._err) && !mock) {
+        if((this.input._err.length > 0 || this.output._err > 0) && !mock) {
             throw new Error("could not open midi device!");
         }
 
         this.subscribers = [];
         this.message_buffer = [];
 
-        this.input.connect(this._onMidiMessage);
+        this.input.connect(message => this._onMidiMessage(message));
     }
 
     close() {
@@ -20,8 +20,7 @@ module.exports = class RinkLink {
         this.output.close();
     }
 
-    _onMidiMessage(message) {
-        const d = message.data;
+    _onMidiMessage(d) {
         if (d[0] >> 4 == 0xA) { // end of packet
             this._flush_buffer();
         } else if (d[0] >> 4 == 0x8) { // single byte
@@ -80,9 +79,9 @@ module.exports = class RinkLink {
 
         grouped_data.forEach(b => {
             if (typeof(b) != "number") {
-                this.output.send(new Uint8Array([0x90 | b[0] >> 7 | (b[1] >> 7) << 1, b[0] & 0b01111111, b[1] & 0b01111111]))
+                this.output.send(new JZZ.MIDI([0x90 | b[0] >> 7 | (b[1] >> 7) << 1, b[0] & 0b01111111, b[1] & 0b01111111]))
             } else {
-                this.output.send(new Uint8Array([0x80 | b >> 7, b & 0b01111111, 0x00]))
+                this.output.send(new JZZ.MIDI([0x80 | b >> 7, b & 0b01111111, 0x00]))
             }
         })
         this.output.send(new JZZ.MIDI([0xA0, 0x00, 0x00])); // flush the line
