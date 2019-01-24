@@ -18,7 +18,7 @@ of the rinklink bridge
 For staying inside the midi spec, only valid midi messages are sent.
 Comunication is done through `Note-on`, `Note-off` and `Poly-KeyPress` messages.
 Each of those messages has their very own meaning: 
-x
+
 | purpose          | midi message type | raw payload               | midi messge (3 bytes)                  |
 | ---------------- | ----------------- | ------------------------- | -------------------------------------- |
 | transfer 1 byte  | `Note-on`         | `0bABCDEFGH`              | `0b1000xxAx` `0b0BCDEFGH` `0bxxxxxxxx` |
